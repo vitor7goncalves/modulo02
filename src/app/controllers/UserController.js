@@ -6,8 +6,9 @@ class UserController {
         if (userExists) {
             return res.status(400).json({ error: 'User already exists.' });
         }
-        const { name, email, provider } = await User.create(req.body);
+        const {id, name, email, provider } = await User.create(req.body);
         return res.json({
+            id,
             name,
             email,
             provider
@@ -27,11 +28,13 @@ class UserController {
         if (oldPassword && !(await user.checkPassword(oldPassword))) {
             return res.status(401).json({ error: 'Password does not match' })
         }
-        const { name, provider } = await user.update(req.bory);
+        const { id, name, provider } = await user.update(req.bory);
         return res.json({
+            id,
             name,
-            provider
-        })
+            email,
+            provider,
+        });
     }
 }
 
